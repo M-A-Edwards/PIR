@@ -13,6 +13,8 @@ defaults:
   consec_train: 1
   consec_report: 1
   replay_context: 1
+  lambda_uncertainity: 0.0
+  latent_samples: 3
   random_agent: False
   clock_addr: ''
   clock_port: ''
