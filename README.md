@@ -25,10 +25,11 @@ pip install -r requirements.txt
 
 ## 2. Run PIR (Proposed Method)
 
-Run the 1M parameter model on DMC Vision with the uncertainty penalty (`λ = 1.0`):
+Run the 1M parameter model on DMC Vision with the uncertainty penalty (`λ = 1.0`) and for seed 1/2/3, respectively (`--seed 1`):
 
 ```bash
 python dreamerv3/main.py --configs dmc_vision --size 1m \
+  --logdir ./logdirM1
   --run.steps 10000 \
   --lambda_uncertainty 1.0 \
   --latent_samples 3
@@ -36,10 +37,11 @@ python dreamerv3/main.py --configs dmc_vision --size 1m \
 
 ## 3. Run Baseline (Vanilla DreamerV3)
 
-Run the baseline without the uncertainty penalty:
+Run the baseline without the uncertainty penalty and for seed 1/2/3, respectively (`--seed 1`):
 
 ```bash
 python dreamerv3/main.py --configs dmc_vision --size 1m \
+  --logdir ./logdirB1
   --run.steps 10000 \
   --lambda_uncertainty 0.0
 ```
