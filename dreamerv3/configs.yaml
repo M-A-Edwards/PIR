@@ -13,8 +13,6 @@ defaults:
   consec_train: 1
   consec_report: 1
   replay_context: 1
-  lambda_uncertainty: 0.0
-  latent_samples: 3
   random_agent: False
   clock_addr: ''
   clock_port: ''
@@ -105,6 +103,8 @@ defaults:
     policy_dist_cont: bounded_normal
     imag_last: 0
     imag_length: 15
+    lambda_uncertainty: 0.0
+    latent_samples: 3
     horizon: 333
     contdisc: True
     imag_loss: {slowtar: False, lam: 0.95, actent: 3e-4, slowreg: 1.0}
