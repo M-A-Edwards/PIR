@@ -199,10 +199,28 @@ class Agent(embodied.jax.Agent):
     imgact = concat([imgprevact, lastact], 1)
     assert all(x.shape[:2] == (B * K, H + 1) for x in jax.tree.leaves(imgfeat))
     assert all(x.shape[:2] == (B * K, H + 1) for x in jax.tree.leaves(imgact))
-    inp = self.feat2tensor(imgfeat)
+    #
+    # --- Pessimistic Imaginary Rewards (PIR) ---
+    # Retrieve values from config for reproducibility
+    num_samples = self.config.latent_samples 
+    lambda_uncertainty = self.config.lambda_uncertainty
+    
+    rew_preds = []
+    for _ in range(num_samples):
+        # self.rew(inp, 2).pred() handles the symlog/discrete conversion
+        rew_preds.append(self.rew(inp, 2).pred())
+    
+    rew_stack = jnp.stack(rew_preds, axis=0)
+    rew_mean = rew_stack.mean(0)
+    rew_std = rew_stack.std(0)
+    
+    # Lower Confidence Bound (LCB) calculation
+    rew_adjusted = rew_mean - lambda_uncertainty * rew_std
+    
+    # Pass the adjusted reward to the loss function
     los, imgloss_out, mets = imag_loss(
         imgact,
-        self.rew(inp, 2).pred(),
+        rew_adjusted, # This is the PIR modification
         self.con(inp, 2).prob(1),
         self.pol(inp, 2),
         self.val(inp, 2),
@@ -212,8 +230,6 @@ class Agent(embodied.jax.Agent):
         contdisc=self.config.contdisc,
         horizon=self.config.horizon,
         **self.config.imag_loss)
-    losses.update({k: v.mean(1).reshape((B, K)) for k, v in los.items()})
-    metrics.update(mets)
 
     # Replay
     if self.config.repval_loss:
