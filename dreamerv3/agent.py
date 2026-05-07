@@ -230,6 +230,8 @@ class Agent(embodied.jax.Agent):
         contdisc=self.config.contdisc,
         horizon=self.config.horizon,
         **self.config.imag_loss)
+    losses.update({k: v.mean(1).reshape((B, K)) for k, v in los.items()})
+    metrics.update(mets)
 
     # Replay
     if self.config.repval_loss:
