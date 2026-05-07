@@ -199,6 +199,7 @@ class Agent(embodied.jax.Agent):
     imgact = concat([imgprevact, lastact], 1)
     assert all(x.shape[:2] == (B * K, H + 1) for x in jax.tree.leaves(imgfeat))
     assert all(x.shape[:2] == (B * K, H + 1) for x in jax.tree.leaves(imgact))
+    inp = self.feat2tensor(imgfeat)
     #
     # --- Pessimistic Imaginary Rewards (PIR) ---
     # Retrieve values from config for reproducibility
