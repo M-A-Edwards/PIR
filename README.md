@@ -49,7 +49,7 @@ python dreamerv3/main.py --configs dmc_vision --size 1m \
 
 # Expected Empirical Results (10k Steps)
 
-Based on our 3-seed study (included in the paper), you should observe:
+Based on our paper, you should observe the below in the metrics file for the log directory:
 
 | Metric                 | Baseline (`λ = 0`) | PIR (`λ = 1.0`) |
 | ---------------------- | ------------------ | --------------- |
