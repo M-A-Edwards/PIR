@@ -31,8 +31,8 @@ Run the 1M parameter model on DMC Vision with the uncertainty penalty (`λ = 1.0
 python dreamerv3/main.py --configs dmc_vision --size 1m \
   --logdir ./logdirM1
   --run.steps 10000 \
-  --lambda_uncertainty 1.0 \
-  --latent_samples 3
+  --agent.lambda_uncertainty 1.0 \
+  --agent.latent_samples 3
 ```
 
 ## 3. Run Baseline (Vanilla DreamerV3)
@@ -43,7 +43,7 @@ Run the baseline without the uncertainty penalty and for seed 1/2/3, respectivel
 python dreamerv3/main.py --configs dmc_vision --size 1m \
   --logdir ./logdirB1
   --run.steps 10000 \
-  --lambda_uncertainty 0.0
+  --agent.lambda_uncertainty 0.0
 ```
 
 
